@@ -17,6 +17,7 @@ if !exists('g:bundle_group')
 	let g:bundle_group = ['basic', 'tags', 'enhanced', 'filetypes', 'textobj']
 	let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale', 'echodoc']
 	let g:bundle_group += ['leaderf']
+	let g:bundle_group += ['ycm']
 endif
 
 
@@ -384,7 +385,9 @@ if index(g:bundle_group, 'ale') >= 0
 	endfunc
 
 	" 设置 flake8/pylint 的参数
+	let g:ale_python_flake8_executable = 'python3 -m flake8'
 	let g:ale_python_flake8_options = '--conf='.s:lintcfg('flake8.conf')
+	let g:ale_python_pylint_executable = 'python3 -m pylint'
 	let g:ale_python_pylint_options = '--rcfile='.s:lintcfg('pylint.conf')
 	let g:ale_python_pylint_options .= ' --disable=W'
 	let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
@@ -519,41 +522,46 @@ endif
 
 
 "----------------------------------------------------------------------
-" 结束插件安装
-"----------------------------------------------------------------------
-call plug#end()
-
-
-
-"----------------------------------------------------------------------
 " YouCompleteMe 默认设置：YCM 需要你另外手动编译安装
 "----------------------------------------------------------------------
+if index(g:bundle_group, 'ycm') >= 0
+	Plug 'Valloric/YouCompleteMe'
 
-" 禁用预览功能：扰乱视听
-let g:ycm_add_preview_to_completeopt = 0
+	" 禁用预览功能：扰乱视听
+	let g:ycm_add_preview_to_completeopt = 0
 
-" 禁用诊断功能：我们用前面更好用的 ALE 代替
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_server_log_level = 'info'
-let g:ycm_min_num_identifier_candidate_chars = 2
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_complete_in_strings=1
-let g:ycm_key_invoke_completion = '<c-z>'
-set completeopt=menu,menuone
+	" 禁用诊断功能：我们用前面更好用的 ALE 代替
+	let g:ycm_show_diagnostics_ui = 0
+	let g:ycm_server_log_level = 'info'
+	let g:ycm_min_num_identifier_candidate_chars = 2
+	let g:ycm_collect_identifiers_from_comments_and_strings = 1
+	let g:ycm_complete_in_strings=1
+	let g:ycm_key_invoke_completion = '<c-z>'
+	set completeopt=menu,menuone
 
-" noremap <c-z> <NOP>
+	" noremap <c-z> <NOP>
 
-" 两个字符自动触发语义补全
-let g:ycm_semantic_triggers =  {
-			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-			\ 'cs,lua,javascript': ['re!\w{2}'],
-			\ }
+	" 两个字符自动触发语义补全
+	let g:ycm_semantic_triggers =  {
+				\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+				\ 'cs,lua,javascript': ['re!\w{2}'],
+				\ }
+
+	" Python 解释器设置
+	let g:ycm_python_interpreter_path = '/usr/bin/python3.6'
+	let g:ycm_python_sys_path = []
+	let g:ycm_extra_conf_vim_data = [
+	  \  'g:ycm_python_interpreter_path',
+	  \  'g:ycm_python_sys_path'
+	  \]
+
+endif
 
 
 "----------------------------------------------------------------------
 " Ycm 白名单（非名单内文件不启用 YCM），避免打开个 1MB 的 txt 分析半天
 "----------------------------------------------------------------------
-let g:ycm_filetype_whitelist = { 
+let g:ycm_filetype_whitelist = {
 			\ "c":1,
 			\ "cpp":1, 
 			\ "objc":1,
@@ -608,4 +616,9 @@ let g:ycm_filetype_whitelist = {
 			\ "ps1":1,
 			\ }
 
+
+"----------------------------------------------------------------------
+" 结束插件安装
+"----------------------------------------------------------------------
+call plug#end()
 
