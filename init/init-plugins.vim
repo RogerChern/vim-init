@@ -18,6 +18,7 @@ if !exists('g:bundle_group')
 	let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale', 'echodoc']
 	let g:bundle_group += ['leaderf']
 	let g:bundle_group += ['ycm']
+	let g:bundle_group += ['jedi']
 endif
 
 
@@ -385,7 +386,7 @@ if index(g:bundle_group, 'ale') >= 0
 	endfunc
 
 	" 设置 flake8/pylint 的参数
-	let g:ale_python_flake8_executable = 'python3 -m flake8'
+	let g:ale_python_flake8_executable = 'flake8'
 	let g:ale_python_flake8_options = '--conf='.s:lintcfg('flake8.conf')
 	let g:ale_python_pylint_executable = 'python3 -m pylint'
 	let g:ale_python_pylint_options = '--rcfile='.s:lintcfg('pylint.conf')
@@ -548,7 +549,7 @@ if index(g:bundle_group, 'ycm') >= 0
 				\ }
 
 	" Python 解释器设置
-	let g:ycm_python_interpreter_path = '/usr/bin/python3.6'
+	let g:ycm_python_interpreter_path = 'python3'
 	let g:ycm_python_sys_path = []
 	let g:ycm_extra_conf_vim_data = [
 	  \  'g:ycm_python_interpreter_path',
@@ -557,6 +558,11 @@ if index(g:bundle_group, 'ycm') >= 0
 
 endif
 
+if index(g:bundle_group, 'jedi') >= 0
+	Plug 'davidhalter/jedi-vim'
+	let g:jedi#completions_enabled = 0
+	let g:jedi#rename_command = "<leader>r"
+endif
 
 "----------------------------------------------------------------------
 " Ycm 白名单（非名单内文件不启用 YCM），避免打开个 1MB 的 txt 分析半天
