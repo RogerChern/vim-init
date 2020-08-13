@@ -17,8 +17,8 @@ if !exists('g:bundle_group')
 	let g:bundle_group = ['basic', 'tags', 'enhanced', 'filetypes', 'textobj']
 	let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale', 'echodoc']
 	let g:bundle_group += ['leaderf']
-	let g:bundle_group += ['ycm']
 	let g:bundle_group += ['jedi']
+	let g:bundle_group += ['pyfold']
 endif
 
 
@@ -521,6 +521,13 @@ if index(g:bundle_group, 'leaderf') >= 0
 	endif
 endif
 
+"----------------------------------------------------------------------
+" Folding Python
+"----------------------------------------------------------------------
+if index(g:bundle_group, 'pyfold') >= 0
+	Plug 'kalekundert/vim-coiled-snake'
+	Plug 'Konfekt/FastFold'
+endif
 
 "----------------------------------------------------------------------
 " YouCompleteMe 默认设置：YCM 需要你另外手动编译安装
